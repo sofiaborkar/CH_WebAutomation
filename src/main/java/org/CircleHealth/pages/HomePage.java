@@ -19,10 +19,9 @@ public class HomePage {
         driver.findElement(acceptAllCookie).click();
     }
 
-    public AppointmentPage clickOnBookAnAppointmentButtom() throws InterruptedException {
+    public AppointmentPage clickOnBookAnAppointmentButtom() throws Exception {
         driver.findElement(bookAnAppointment).click();
-        Thread.sleep(5000);
-
+        //Thread.sleep(5000);
         return new AppointmentPage(driver);
     }
 

@@ -13,9 +13,16 @@ public class ExplicitWait {
         try{
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
             wait.until(ExpectedConditions.elementToBeClickable(webElement));
+            //wait.until(ExpectedConditions.invisibilityOfAllElements(driver.findElements(By.cssSelector("div.loader"))));
+            //wait.until(ExpectedConditions.visibilityOf(webElement));
         }catch (Exception e){
             throw new Exception("Element not found - "+ e.getMessage());
         }
         return webElement;
     }
+
+
+
+
+
 }

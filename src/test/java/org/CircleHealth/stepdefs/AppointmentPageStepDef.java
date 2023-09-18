@@ -45,7 +45,7 @@ public class AppointmentPageStepDef{
     }*/
 
     @Given("I am on the Circle Health home page and clicking on - Book an appointment")
-    public void iAmOnTheCircleHealthHomePageAndClickOnBookAnAppointment() throws InterruptedException {
+    public void iAmOnTheCircleHealthHomePageAndClickOnBookAnAppointment() throws Exception {
         driver.get("https://www.circlehealthgroup.co.uk/");
         HomePage homePage = new HomePage(driver);
         homePage.clickOnAcceptAllCookie();
