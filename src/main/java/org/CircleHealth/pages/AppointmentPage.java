@@ -1,12 +1,12 @@
 package org.CircleHealth.pages;
 
 
+import org.CircleHealth.pages.commons.ExplicitWait;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -24,21 +24,22 @@ public class AppointmentPage {
     private By infoMessage = By.xpath("//*[@id=\"digital-doorway\"]/div[3]/div/div/p");
     private By dateOf10oct23 = By.xpath("//*[@id='datepicker']//span[@aria-label='Tuesday, October 10, 2023']");
     private By preferredTime = By.id("preferredTime");
+    String treatmentName;
 
     public AppointmentPage(WebDriver driver){
         this.driver = driver;
     }
 
     //methods
-    public void selectTreatment(String treatmentName) throws InterruptedException {
+    public void selectTreatment(String treatmentName) throws Exception {
+        //ExplicitWait.waitFor(driver,driver.findElement(treatment));
         driver.findElement(treatment).sendKeys(treatmentName);
-        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(1));
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(listOfTreatments).findElement(By.xpath("//li[@data-value='"+treatmentName+"']")))).click();
-/*
-        Thread.sleep(1000);
-        driver.findElement(listOfTreatments).findElement(By.xpath("//li[@data-value='"+treatmentName+"']")).click();
-*/
-
+        WebElement TreatmentDropdown=driver.findElement(listOfTreatments).findElement(By.xpath("//li[@data-value='"+treatmentName+"']"));
+        ExplicitWait.waitFor(driver,TreatmentDropdown);
+        TreatmentDropdown.click();
+        //Thread.sleep(500);
+      //  Actions action = new Actions(driver);
+      //  action.sendKeys(Keys.ENTER).perform();
     }
 
     public void selectLocationByPostcode(String locationByPostcode) throws InterruptedException {
@@ -49,15 +50,18 @@ public class AppointmentPage {
         action.sendKeys(Keys.ENTER).perform();
     }
 
-    public void selectLocationByTown(String locationByTown){}
-
-    public void clickOnSearchButton() throws InterruptedException {
-        Thread.sleep(1000);
-        driver.findElement(searchButton).click();
+    public void selectLocationByTown(String locationByTown){
+        //to validate other scenarios
     }
 
-    public void selectDate() throws InterruptedException {//String date
-        Thread.sleep(1000);
+    public void clickOnSearchButton() throws Exception {
+        ExplicitWait.waitFor(driver,driver.findElement(searchButton));
+        driver.findElement(searchButton).click();
+        Thread.sleep(5000);
+    }
+
+    public void selectDate() throws Exception {
+        ExplicitWait.waitFor(driver,driver.findElement(dateOf10oct23));
         driver.findElement(dateOf10oct23).click();
     }
 
@@ -65,27 +69,12 @@ public class AppointmentPage {
         WebElement preferredTimeDropdown = driver.findElement(preferredTime);
         Select select = new Select(preferredTimeDropdown);
         select.selectByValue(preferredTimeSelected);
-
     }
 
     public int validateAvailabilityOfFirstConsultant(){
         WebElement FirstConsultant = driver.findElement(By.xpath("//*[@class='consultant-results__content']/ul/li[1]"));
-        //System.out.println(FirstConsultant.findElement(By.className("consultant-result-card__name")).getText());
-        //System.out.println(FirstConsultant.findElement(By.className("consultant-result-card__date")).getText());
-
         List<WebElement> listOfAvailableTimes= FirstConsultant.findElements(By.xpath("//li[1]//div[@class='consultant-result-card__times-content']/a"));
-        //System.out.println("Consultant's availability: ");
-
         return listOfAvailableTimes.size();
-
-        /*for(int i=1;i<=listOfAvailableTimes.size();i++){
-            System.out.println(FirstConsultant.findElement(By.xpath("//li[1]//div[@class='consultant-result-card__times-content']/a["+i+"]/span[1]")).getText());
-        }*/
-
-
     }
-
-
-
 
 }

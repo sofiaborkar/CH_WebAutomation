@@ -1,6 +1,5 @@
 package org.CircleHealth.stepdefs;
 
-import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -9,42 +8,52 @@ import org.CircleHealth.pages.AppointmentPage;
 import org.CircleHealth.pages.HomePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 
 import java.time.Duration;
+import java.util.Locale;
 
-public class AppointmentPageStepDef {
+public class AppointmentPageStepDef{
 
     WebDriver driver;
+    ChromeOptions opt;
     AppointmentPage appointmentPage;
 
     @Before
     public void setup() {
-        driver = new ChromeDriver();
+
+        String browserName = System.getProperty("browserName").toLowerCase(Locale.ROOT);
+        if(browserName.equals("firefox")){
+            driver = new FirefoxDriver();
+        }else if(browserName.equals("chrome")){
+            /*opt = new ChromeOptions();
+            opt.addArguments("incognito");
+            driver = new ChromeDriver(opt);*/
+            driver = new ChromeDriver();
+        }
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
-        //driver = new FirefoxDriver();
     }
 
-    @After
+    /*@After
     public void tearDown() {
         if (driver != null) {
             driver.quit();
         }
-    }
+    }*/
 
     @Given("I am on the Circle Health home page and clicking on - Book an appointment")
-    public void iAmOnTheCircleHealthHomePageAndClickOnBookAnAppointment() {
-        //System.out.println("Test........check");
+    public void iAmOnTheCircleHealthHomePageAndClickOnBookAnAppointment() throws InterruptedException {
         driver.get("https://www.circlehealthgroup.co.uk/");
         HomePage homePage = new HomePage(driver);
         homePage.clickOnAcceptAllCookie();
         this.appointmentPage = homePage.clickOnBookAnAppointmentButtom();
-
     }
 
     @Given("I am a patient wanting a {string}")
-    public void iAmAPatientWantingA(String treatmentName) throws InterruptedException {
+    public void iAmAPatientWantingA(String treatmentName) throws Exception {
         appointmentPage.selectTreatment(treatmentName);
     }
 
@@ -54,7 +63,7 @@ public class AppointmentPageStepDef {
     }
 
     @And("I select my date of choice")
-    public void iSelectMyDateOfChoice() throws InterruptedException {
+    public void iSelectMyDateOfChoice() throws Exception {
         appointmentPage.selectDate();
     }
 
@@ -76,7 +85,7 @@ public class AppointmentPageStepDef {
     }
 
     @When("I provide my location as {string} and click on search")
-    public void iProvideMyLocationAsAndClickOnSearch(String locationPostcode) throws InterruptedException {
+    public void iProvideMyLocationAsAndClickOnSearch(String locationPostcode) throws Exception {
         appointmentPage.selectLocationByPostcode(locationPostcode);
         appointmentPage.clickOnSearchButton();
     }

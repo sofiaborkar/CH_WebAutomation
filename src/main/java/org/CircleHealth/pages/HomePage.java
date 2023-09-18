@@ -19,16 +19,11 @@ public class HomePage {
         driver.findElement(acceptAllCookie).click();
     }
 
-    public AppointmentPage clickOnBookAnAppointmentButtom(){
+    public AppointmentPage clickOnBookAnAppointmentButtom() throws InterruptedException {
         driver.findElement(bookAnAppointment).click();
-        return new AppointmentPage(driver);
-    }
+        Thread.sleep(5000);
 
-    public void checkAppointmentPageURL(){
-        String currentURL = driver.getCurrentUrl();
-        if(!currentURL.equals("https://www.circlehealthgroup.co.uk/find-an-appointment")){
-            System.out.println("Appointment page not loaded");
-        }
+        return new AppointmentPage(driver);
     }
 
 }
