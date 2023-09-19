@@ -1,5 +1,6 @@
 package org.CircleHealth.stepdefs;
 
+import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -37,12 +38,12 @@ public class AppointmentPageStepDef{
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
     }
 
-    /*@After
+    @After
     public void tearDown() {
         if (driver != null) {
             driver.quit();
         }
-    }*/
+    }
 
     @Given("I am on the Circle Health home page and clicking on - Book an appointment")
     public void iAmOnTheCircleHealthHomePageAndClickOnBookAnAppointment() throws Exception {
@@ -62,12 +63,18 @@ public class AppointmentPageStepDef{
         appointmentPage.selectLocationByPostcode(locationPostcode);
     }
 
-    @And("I select my date of choice")
+    //Hardcoded date of choice
+    /*@And("I select my date of choice")
     public void iSelectMyDateOfChoice() throws Exception {
         appointmentPage.selectDate();
+    }*/
+
+    @And("I select date as {string}")
+    public void iSelectDateAs(String dateOfTreatment) throws Exception {
+        appointmentPage.dateSelection(dateOfTreatment);
     }
 
-    @And("I select my availability as {}")
+    @And("I select my availability as {string}")
     public void iSelectMyPreferredTimes(String preferredTimes) {
         appointmentPage.selectPreferredTime(preferredTimes);
     }
@@ -89,6 +96,5 @@ public class AppointmentPageStepDef{
         appointmentPage.selectLocationByPostcode(locationPostcode);
         appointmentPage.clickOnSearchButton();
     }
-
 
 }

@@ -2,6 +2,10 @@ package org.CircleHealth.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class HomePage {
 
@@ -21,7 +25,10 @@ public class HomePage {
 
     public AppointmentPage clickOnBookAnAppointmentButtom() throws Exception {
         driver.findElement(bookAnAppointment).click();
-        //Thread.sleep(5000);
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+        //wait.until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.xpath("//input"))));
+        wait.until(ExpectedConditions.invisibilityOf(driver.findElement(By.xpath("//*[@id=\"digital-doorway\"]/div[1]/div"))));
         return new AppointmentPage(driver);
     }
 
