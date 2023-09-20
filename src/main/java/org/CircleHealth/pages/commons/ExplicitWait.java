@@ -19,6 +19,18 @@ public class ExplicitWait {
         return webElement;
     }
 
+public static void waitForInvisibilityOf(WebDriver driver, WebElement webElement) throws Exception {
+    try{
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.invisibilityOf(webElement));
+    }catch (Exception e){
+        throw new Exception("--------Webpage hanged--------"+ e.getMessage());
+    }
+
+}
+
+
+
 
 
 

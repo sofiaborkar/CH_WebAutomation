@@ -1,7 +1,9 @@
 package org.CircleHealth.pages;
 
+import org.CircleHealth.pages.commons.ExplicitWait;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -18,7 +20,6 @@ public class HomePage {
         this.driver = driver;
     }
 
-    //methods
     public void clickOnAcceptAllCookie(){
         driver.findElement(acceptAllCookie).click();
     }
@@ -27,8 +28,9 @@ public class HomePage {
         driver.findElement(bookAnAppointment).click();
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
-        //wait.until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.xpath("//input"))));
         wait.until(ExpectedConditions.invisibilityOf(driver.findElement(By.xpath("//*[@id=\"digital-doorway\"]/div[1]/div"))));
+        WebElement loader = driver.findElement(By.xpath("//*[@id=\"digital-doorway\"]/div[1]/div"));
+        ExplicitWait.waitForInvisibilityOf(driver, loader);
         return new AppointmentPage(driver);
     }
 

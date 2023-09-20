@@ -4,6 +4,7 @@ import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.CircleHealth.pages.AppointmentPage;
 import org.CircleHealth.pages.HomePage;
@@ -63,25 +64,14 @@ public class AppointmentPageStepDef{
         appointmentPage.selectLocationByPostcode(locationPostcode);
     }
 
-    //Hardcoded date of choice
-    /*@And("I select my date of choice")
-    public void iSelectMyDateOfChoice() throws Exception {
-        appointmentPage.selectDate();
-    }*/
-
     @And("I select date as {string}")
     public void iSelectDateAs(String dateOfTreatment) throws Exception {
         appointmentPage.dateSelection(dateOfTreatment);
     }
 
-    @And("I select my availability as {string}")
-    public void iSelectMyPreferredTimes(String preferredTimes) {
-        appointmentPage.selectPreferredTime(preferredTimes);
-    }
-
     @And("I validate the time availability for the first available consultant in the list")
     public void iValidateTheTimeAvailabilityForTheFirstAvailableConsultantInTheList() {
-        int i = appointmentPage.validateAvailabilityOfFirstConsultant();
+        int i = appointmentPage.listOfTimesAvailabilityOfFirstConsultantOnTimeFilter();
         boolean testCondition;
         if (i > 0) {
             testCondition = true;
@@ -97,4 +87,8 @@ public class AppointmentPageStepDef{
         appointmentPage.clickOnSearchButton();
     }
 
+    @Then("I validate the message of no available consultant nearby")
+    public void iValidateTheMessageOfNoAvailableConsultantNearby() throws Exception {
+        Assert.assertTrue(appointmentPage.validateMessageOfUnavailability(),"No unavailability message received OR Wrong message.");
+    }
 }
